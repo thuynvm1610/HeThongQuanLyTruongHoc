@@ -52,14 +52,20 @@ public class LoginController extends HttpServlet {
 			}
 			
 			String role = loginDAO.getRole(username);
-			String studentName = loginDAO.getStudentName(username);
-			String studentID = loginDAO.getStudentID(username);
 			if (role.equals("admin")) {		
 				resp.sendRedirect("admin?action=dashboard");
 			} else if (role.equals("student")) {
+				String studentName = loginDAO.getStudentName(username);
+				String studentID = loginDAO.getStudentID(username);
 				req.getSession().setAttribute("studentName", studentName);
 				req.getSession().setAttribute("studentID", studentID);
 				resp.sendRedirect("student?action=personalInformation");
+			} else if (role.equals("teacher")) {
+				String teacherName = loginDAO.getTeacherName(username);
+				String teacherID = loginDAO.getTeacherID(username);
+				req.getSession().setAttribute("teacherName", teacherName);
+				req.getSession().setAttribute("teacherID", teacherID);
+				resp.sendRedirect("teacher?action=personalInformation");
 			}
 			return;
 		}

@@ -186,5 +186,48 @@ public class LoginDAO {
 	    }
 	    return studentName;
 	}
+
+	public String getTeacherID(String username) {
+		String sql = "select teacherID from account where username = ?";
+	    DBConnect dbConn = new DBConnect();
+	    String teacherID = null;
+	    try {
+	        Connection conn = dbConn.getConnection();
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, username);
+	        ResultSet rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	        	teacherID = rs.getString("teacherID");
+	        }
+	        conn.close();
+	        pstmt.close();
+	        rs.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return teacherID;
+	}
+
+	public String getTeacherName(String username) {
+		String sql = "select name from teacher where teacherID = ?";
+	    DBConnect dbConn = new DBConnect();
+	    String teacherID = this.getTeacherID(username);
+	    String teacherName = null;
+	    try {
+	        Connection conn = dbConn.getConnection();
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, teacherID);
+	        ResultSet rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	        	teacherName = rs.getString("name");
+	        }
+	        conn.close();
+	        pstmt.close();
+	        rs.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return teacherName;
+	}
 	
 }
