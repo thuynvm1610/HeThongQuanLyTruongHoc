@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,6 +39,56 @@ public class TeacherController extends HttpServlet {
 			    req.setAttribute("succeedAddMessage", succeedAddMessage);
 			    req.getSession().removeAttribute("succeedAddMessage");
 			}
+			req.getRequestDispatcher("view/teacher/personalInformation.jsp").forward(req, resp);
+			return;
+		} else if (action.equals("updateEmailForm")) {
+			String teacherID = (String) req.getSession().getAttribute("teacherID");
+			TeacherDAO teacherDAO = new TeacherDAO();
+			Teacher teacher = teacherDAO.findById(teacherID);
+			req.setAttribute("teacher", teacher);
+			req.getRequestDispatcher("view/teacher/updateEmail.jsp").forward(req, resp);
+		}
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
+		resp.setContentType("text/html;charset=UTF-8");
+
+		String action = req.getParameter("action");
+		
+		if (action.equals("updateEmail")) {
+			TeacherDAO teacherDAO = new TeacherDAO();
+			StringBuilder message = new StringBuilder();
+
+			if (teacherDAO.isEmailExists(req.getParameter("email"), req.getParameter("teacherID"))) {
+				message.append("Email đã được sử dụng<br>");
+			}
+
+			Teacher teacher = new Teacher();
+			teacher.setTeacherID(req.getParameter("teacherID"));
+			teacher.setName(req.getParameter("name"));
+			teacher.setGender(req.getParameter("gender"));
+			teacher.setDob(Date.valueOf(req.getParameter("dob")));
+			teacher.setHometown(req.getParameter("hometown"));
+			if (message.length() > 0) {
+				String teacherID = (String) req.getSession().getAttribute("teacherID");
+				Teacher originalTeacher = teacherDAO.findById(teacherID);
+				String originalEmail = originalTeacher.getEmail();
+				teacher.setEmail(originalEmail);
+			} else {
+				teacher.setEmail(req.getParameter("email"));
+			}
+
+			req.setAttribute("teacher", teacher);
+			if (message.length() > 0) {
+				req.setAttribute("message", message.toString());
+				req.getRequestDispatcher("view/teacher/updateEmail.jsp").forward(req, resp);
+				return;
+			}
+
+			teacherDAO.update(teacher);
+			req.getSession().setAttribute("succeedAddMessage", "Cập nhật email thành công");
 			req.getRequestDispatcher("view/teacher/personalInformation.jsp").forward(req, resp);
 			return;
 		}
