@@ -61,6 +61,13 @@ public class TeacherController extends HttpServlet {
 			    req.getSession().removeAttribute("succeedAddMessage");
 			}
 			req.getRequestDispatcher("view/teacher/accountInformation.jsp").forward(req, resp);
+		} else if (action.equals("changePasswordForm")) {
+			String teacherID = (String) req.getSession().getAttribute("teacherID");
+			AccountDAO accoutDAO = new AccountDAO();
+			String accountID = accoutDAO.getTeacherAccountID(teacherID);
+			Account account = accoutDAO.findByID(accountID);
+			req.setAttribute("account", account);
+			req.getRequestDispatcher("view/teacher/changePassword.jsp").forward(req, resp);
 		}
 	}
 	
@@ -104,6 +111,22 @@ public class TeacherController extends HttpServlet {
 			teacherDAO.update(teacher);
 			req.getSession().setAttribute("succeedAddMessage", "Cập nhật email thành công");
 			req.getRequestDispatcher("view/teacher/personalInformation.jsp").forward(req, resp);
+			return;
+		} else if (action.equals("changePassword")) {
+			AccountDAO accountDAO = new AccountDAO();
+			
+			Account account = new Account();
+			account.setAccountID(req.getParameter("accountID"));
+			account.setUsername(req.getParameter("username"));
+			account.setRole(req.getParameter("role"));
+			account.setTeacherID(req.getParameter("teacherID"));
+			account.setPassword(req.getParameter("password"));
+			
+			req.setAttribute("account", account);
+			
+			accountDAO.update(account);
+			req.getSession().setAttribute("succeedAddMessage", "Cập nhật mật khẩu thành công");
+			req.getRequestDispatcher("view/teacher/accountInformation.jsp").forward(req, resp);
 			return;
 		}
 	}

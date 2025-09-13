@@ -136,6 +136,49 @@
             </div>
         </div>
     </div>
+
+    <!-- Edit Account Password Modal -->
+    <div class="modal fade" id="editAccountPasswordModal" tabindex="-1" aria-labelledby="editAccountPasswordModalLabel" aria-hidden="true"
+        style="position: fixed; top: 10%;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Đổi mật khẩu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <c:if test="${not empty message}">
+                        <div class="alert-error">
+                            &#9888; ${message}
+                        </div>
+                    </c:if>
+                    <form action="teacher" method="post">
+                        <input type="hidden" name="action" value="changePassword" />
+                        <input type="hidden" name="accountID" value="${account.accountID}">
+                        <input type="hidden" name="username" value="${account.username}">
+                        <input type="hidden" name="role" value="${account.role}">
+                        <input type="hidden" name="teacherID" value="${account.teacherID}">
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mật khẩu</label>
+                            <input id="password" class="form-control" type="text" name="password" value="${account.password}"
+                                required>
+                        </div>
+                        <div style="display: flex; flex-direction: row-reverse;">
+                            <button style="margin-left: 10px;" type="submit" class="btn btn-primary">Lưu</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            var myModal = new bootstrap.Modal(document.getElementById('editAccountPasswordModal'));
+            myModal.show();
+        });
+    </script>
 </body>
 
 </html>
