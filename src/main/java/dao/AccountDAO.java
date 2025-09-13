@@ -189,7 +189,7 @@ public class AccountDAO {
 		}
 	}
 
-	public String getAccountID(String studentID) {
+	public String getStudentAccountID(String studentID) {
 		String sql = "select accountID from account where studentID = ?";
 		DBConnect dbConn = new DBConnect();
 		String accountID = null;
@@ -290,6 +290,27 @@ public class AccountDAO {
 	        e.printStackTrace();
 	    }
 	    return result;
+	}
+
+	public String getTeacherAccountID(String teacherID) {
+		String sql = "select accountID from account where teacherID = ?";
+		DBConnect dbConn = new DBConnect();
+		String accountID = null;
+		try {
+			Connection conn = dbConn.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, teacherID);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				accountID = rs.getString("accountID");
+			}
+			conn.close();
+			pstmt.close();
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return accountID;
 	}
 	
 }

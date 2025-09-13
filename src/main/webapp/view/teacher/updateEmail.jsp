@@ -49,7 +49,7 @@
                 <ul class="nav flex-column">
                     <li class="nav-item active">
                         <span class="active__subItem"></span>
-                        <form method="get" action="student">
+                        <form method="get" action="teacher">
                             <input type="hidden" name="action" value="personalInformation">
                             <button type="submit" class="sidebar-btn">
                                 <div class="sidebar__icon-container">
@@ -60,7 +60,7 @@
                         </form>
                     </li>
                     <li class="nav-item">
-                        <form method="get" action="student">
+                        <form method="get" action="teacher">
                             <input type="hidden" name="action" value="accountInformation">
                             <button type="submit" class="sidebar-btn">
                                 <div class="sidebar__icon-container">

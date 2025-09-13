@@ -7,6 +7,7 @@ public class Account {
 	private String password;
 	private String role;
 	private String studentID;
+	private String teacherID;
 
 	public String getAccountID() {
 		return accountID;
@@ -46,6 +47,14 @@ public class Account {
 
 	public void setStudentID(String studentID) {
 		this.studentID = studentID;
+	}
+
+	public String getTeacherID() {
+		return teacherID;
+	}
+
+	public void setTeacherID(String teacherID) {
+		this.teacherID = teacherID;
 	}
 
 }

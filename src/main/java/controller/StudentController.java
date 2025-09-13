@@ -53,7 +53,7 @@ public class StudentController extends HttpServlet {
 		} else if (action.equals("accountInformation")) {
 			String studentID = (String) req.getSession().getAttribute("studentID");
 			AccountDAO accoutDAO = new AccountDAO();
-			String accountID = accoutDAO.getAccountID(studentID);
+			String accountID = accoutDAO.getStudentAccountID(studentID);
 			Account account = accoutDAO.findByID(accountID);
 			req.setAttribute("account", account);
 			String succeedAddMessage = (String) req.getSession().getAttribute("succeedAddMessage");
@@ -72,7 +72,7 @@ public class StudentController extends HttpServlet {
 		} else if (action.equals("changePasswordForm")) {
 			String studentID = (String) req.getSession().getAttribute("studentID");
 			AccountDAO accoutDAO = new AccountDAO();
-			String accountID = accoutDAO.getAccountID(studentID);
+			String accountID = accoutDAO.getStudentAccountID(studentID);
 			Account account = accoutDAO.findByID(accountID);
 			req.setAttribute("account", account);
 			req.getRequestDispatcher("view/student/changePassword.jsp").forward(req, resp);

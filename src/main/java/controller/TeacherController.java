@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.AccountDAO;
 import dao.TeacherDAO;
+import model.Account;
 import model.Teacher;
 
 @WebServlet(urlPatterns = "/teacher")
@@ -47,6 +49,18 @@ public class TeacherController extends HttpServlet {
 			Teacher teacher = teacherDAO.findById(teacherID);
 			req.setAttribute("teacher", teacher);
 			req.getRequestDispatcher("view/teacher/updateEmail.jsp").forward(req, resp);
+		} else if (action.equals("accountInformation")) {
+			String teacherID = (String) req.getSession().getAttribute("teacherID");
+			AccountDAO accoutDAO = new AccountDAO();
+			String accountID = accoutDAO.getTeacherAccountID(teacherID);
+			Account account = accoutDAO.findByID(accountID);
+			req.setAttribute("account", account);
+			String succeedAddMessage = (String) req.getSession().getAttribute("succeedAddMessage");
+			if (succeedAddMessage != null) {
+			    req.setAttribute("succeedAddMessage", succeedAddMessage);
+			    req.getSession().removeAttribute("succeedAddMessage");
+			}
+			req.getRequestDispatcher("view/teacher/accountInformation.jsp").forward(req, resp);
 		}
 	}
 	
