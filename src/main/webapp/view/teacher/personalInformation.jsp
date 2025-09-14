@@ -76,8 +76,8 @@
                         </form>
                     </li>
                     <li class="nav-item">
-                        <form method="get" action="student">
-                            <input type="hidden" name="action" value="searchClassroomListByStudentID">
+                        <form method="get" action="teacher">
+                            <input type="hidden" name="action" value="searchClassroomListByTeacherID">
                             <button type="submit" class="sidebar-btn">
                                 <div class="sidebar__icon-container">
                                     <i class="fas fa-school me-2"></i> 

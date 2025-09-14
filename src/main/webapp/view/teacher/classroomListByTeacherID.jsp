@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -34,9 +33,9 @@
 </head>
 
 <body>
-    <c:if test="${not empty succeedAddMessage}">
-        <div class="alert-success">
-            &#9989; ${succeedAddMessage}
+    <c:if test="${not empty message}">
+        <div class="alert-info">
+            &#8505; ${message}
         </div>
     </c:if>
     <div class="container-fluid">
@@ -63,8 +62,7 @@
                             </button>
                         </form>
                     </li>
-                    <li class="nav-item active">
-                        <span class="active__subItem"></span>
+                    <li class="nav-item">
                         <form method="get" action="teacher">
                             <input type="hidden" name="action" value="accountInformation">
                             <button type="submit" class="sidebar-btn">
@@ -75,7 +73,8 @@
                             </button>
                         </form>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
+                        <span class="active__subItem"></span>
                         <form method="get" action="teacher">
                             <input type="hidden" name="action" value="searchClassroomListByTeacherID">
                             <button type="submit" class="sidebar-btn">
@@ -102,34 +101,55 @@
             <!-- Main content -->
             <div class="col-md-10 main-content">
                 <div class="tab-content">
-                    <!-- Account Information Tab -->
-                    <h2 class="mb-4">Thông tin tài khoản</h2>
-                    <div class="card">
-                        <div class="card-header">
-                            <span>Thông tin tài khoản</span>
+                    <!-- Teacher's Classrooms Tab -->
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h2>Danh sách lớp đang dạy của <strong>
+                                    <c:out value="${teacherID}" />
+                                </strong></h2>
                         </div>
-                        <div class="card-body">
-                            <form method="get" action="teacher">
-                                <div class="row">
-                                    <input type="hidden" name="action" value="changePasswordForm">
-                                    <input type="hidden" name="accountID" value="${account.accountID}">
-                                    <input type="hidden" name="role" value="${account.role}">
-                                    <input type="hidden" name="teacherID" value="${account.teacherID}">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="username" class="form-label">Tên tài khoản</label>
-                                        <input type="text" class="form-control" id="username" name="username"
-                                            value="${account.username}" style="box-shadow: none;" readonly>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="password" class="form-label">Mật khẩu</label>
-                                        <input type="text" class="form-control" id="password" name="password"
-                                            value="${account.password}" style="box-shadow: none;" readonly>
-                                    </div>
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span>Danh sách lớp học</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <div style="max-height: 520.5px; overflow: auto;">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>STT</th>
+                                                    <th>Mã lớp</th>
+                                                    <th>Tên lớp</th>
+                                                    <th>Hành động</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach var="cl" items="${classroomList}" varStatus="loop">
+                                                    <tr>
+                                                        <td>${loop.index + 1}</td>
+                                                        <td>${cl.classroomID}</td>
+                                                        <td>${cl.name}</td>
+                                                        <td>
+                                                            <div style="display: flex; gap: 5px;">
+                                                                <form method="get" action="student">
+                                                                    <input type="hidden" name="action"
+                                                                        value="searchStudentListByClassroomID" />
+                                                                    <input type="hidden" name="classroomID"
+                                                                        value="${cl.classroomID}" />
+                                                                    <button class="btn btn-sm btn-info" type="submit">
+                                                                        <i class="fas fa-eye"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

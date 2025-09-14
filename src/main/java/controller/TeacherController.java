@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,8 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.AccountDAO;
+import dao.ClassroomDAO;
 import dao.TeacherDAO;
 import model.Account;
+import model.Classroom;
 import model.Teacher;
 
 @WebServlet(urlPatterns = "/teacher")
@@ -69,6 +72,16 @@ public class TeacherController extends HttpServlet {
 			Account account = accoutDAO.findByID(accountID);
 			req.setAttribute("account", account);
 			req.getRequestDispatcher("view/teacher/changePassword.jsp").forward(req, resp);
+		} else if (action.equals("searchClassroomListByTeacherID")) {
+			String teacherID = (String) req.getSession().getAttribute("teacherID");
+			ClassroomDAO classroomDAO = new ClassroomDAO();
+			List<Classroom> classroomList = classroomDAO.findByTeacherID(teacherID);
+			req.setAttribute("classroomList", classroomList);
+			if (classroomList.isEmpty()) {
+				req.setAttribute("message", "Bạn hiện chưa dạy lớp nào");
+			}
+			req.getRequestDispatcher("view/teacher/classroomListByTeacherID.jsp").forward(req, resp);
+			return;
 		} else if (action.equals("logout")) {
 			HttpSession session = req.getSession(false);
 		    if (session != null) {
