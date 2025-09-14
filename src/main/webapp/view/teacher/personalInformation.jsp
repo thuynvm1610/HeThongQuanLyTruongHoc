@@ -87,7 +87,7 @@
                         </form>
                     </li>
                     <li class="nav-item mt-3">
-                        <form method="get" action="student">
+                        <form method="get" action="teacher">
                             <input type="hidden" name="action" value="logout">
                             <button type="submit" class="sidebar-btn">
                                 <div class="sidebar__icon-container">

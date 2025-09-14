@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.AccountDAO;
 import dao.TeacherDAO;
@@ -68,6 +69,13 @@ public class TeacherController extends HttpServlet {
 			Account account = accoutDAO.findByID(accountID);
 			req.setAttribute("account", account);
 			req.getRequestDispatcher("view/teacher/changePassword.jsp").forward(req, resp);
+		} else if (action.equals("logout")) {
+			HttpSession session = req.getSession(false);
+		    if (session != null) {
+		        session.invalidate();
+		    }
+			req.getRequestDispatcher("view/login/loginForm.jsp").forward(req, resp);
+			return;
 		}
 	}
 	

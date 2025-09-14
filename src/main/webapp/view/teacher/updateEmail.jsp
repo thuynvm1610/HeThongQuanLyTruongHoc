@@ -42,8 +42,8 @@
                     <img src="https://png.pngtree.com/png-vector/20191027/ourmid/pngtree-user-icon-isolated-on-abstract-background-png-image_1875037.jpg"
                         alt="User Avatar" class="user-avatar">
                     <div class="user-info">
-                        <h6 class="user-name" id="sidebarUserName">${studentName}</h6>
-                        <span class="user-role" id="sidebarUserRole">Sinh viên</span>
+                        <h6 class="user-name" id="sidebarUserName">${teacherName}</h6>
+                        <span class="user-role" id="sidebarUserRole">Giáo viên</span>
                     </div>
                 </div>
                 <ul class="nav flex-column">
@@ -82,7 +82,7 @@
                         </form>
                     </li>
                     <li class="nav-item mt-3">
-                        <form method="get" action="student">
+                        <form method="get" action="teacher">
                             <input type="hidden" name="action" value="logout">
                             <button type="submit" class="sidebar-btn">
                                 <div class="sidebar__icon-container">
