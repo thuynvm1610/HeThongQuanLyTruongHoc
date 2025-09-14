@@ -299,8 +299,9 @@
                 <label for="role" class="form-label">Quyền đăng nhập</label>
                 <select class="form-select" id="role" name="role">
                     <option value="">Chọn quyền đăng nhập</option>
-                    <option value="student">Student</option>
                     <option value="admin">Admin</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="student">Student</option>
                 </select>
             </div>
             <div style="display: flex; flex-direction: row-reverse;">

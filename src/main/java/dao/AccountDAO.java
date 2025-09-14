@@ -233,6 +233,7 @@ public class AccountDAO {
 				account.setPassword(rs.getString("password"));
 				account.setRole(rs.getString("role"));
 				account.setStudentID(rs.getString("studentID"));
+				account.setTeacherID(rs.getString("teacherID"));
 				accountList.add(account);
 			}
 			conn.close();
