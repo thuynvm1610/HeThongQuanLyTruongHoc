@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,9 +14,13 @@ import javax.servlet.http.HttpSession;
 
 import dao.AccountDAO;
 import dao.ClassroomDAO;
+import dao.StudentDAO;
+import dao.Student_classroomDAO;
 import dao.TeacherDAO;
 import model.Account;
 import model.Classroom;
+import model.Student;
+import model.Student_classroom;
 import model.Teacher;
 
 @WebServlet(urlPatterns = "/teacher")
@@ -81,6 +86,27 @@ public class TeacherController extends HttpServlet {
 				req.setAttribute("message", "Bạn hiện chưa dạy lớp nào");
 			}
 			req.getRequestDispatcher("view/teacher/classroomListByTeacherID.jsp").forward(req, resp);
+			return;
+		} else if (action.equals("searchStudentListByClassroomID")) {
+			String classroomID = req.getParameter("classroomID");
+			req.setAttribute("classroomID", classroomID);
+			Student_classroomDAO student_classroomDAO = new Student_classroomDAO();
+			List<Student_classroom> student_classroomList = student_classroomDAO.findByID(classroomID, null);
+			List<Student> studentList = new ArrayList<>();
+			StudentDAO studentDAO = new StudentDAO();
+			for (int i = 0; i < student_classroomList.size(); i++) {
+				String studentID = student_classroomList.get(i).getStudentID();
+				String studentName = studentDAO.getStudentName(studentID);
+				Student student = new Student();
+				student.setStudentID(studentID);
+				student.setName(studentName);
+				student.setDob(null);
+				student.setEmail(null);
+				student.setGender(null);
+				studentList.add(student);
+			}
+			req.setAttribute("studentList", studentList);
+			req.getRequestDispatcher("view/teacher/studentListByClassroomID.jsp").forward(req, resp);
 			return;
 		} else if (action.equals("logout")) {
 			HttpSession session = req.getSession(false);

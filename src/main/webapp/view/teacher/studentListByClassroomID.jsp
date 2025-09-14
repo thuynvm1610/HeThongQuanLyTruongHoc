@@ -101,16 +101,16 @@
             <!-- Main content -->
             <div class="col-md-10 main-content">
                 <div class="tab-content">
-                    <!-- Teacher's Classrooms Tab -->
+                    <!-- Classroom's Students Tab -->
                     <div>
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h2>Danh sách lớp đang dạy của <strong>
-                                    <c:out value="${teacherID}" />
+                            <h2>Danh sách sinh viên đang học của lớp <strong>
+                                    <c:out value="${classroomID}" />
                                 </strong></h2>
                         </div>
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <span>Danh sách lớp học</span>
+                                <span>Danh sách sinh viên</span>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -119,30 +119,16 @@
                                             <thead>
                                                 <tr>
                                                     <th>STT</th>
-                                                    <th>Mã lớp</th>
-                                                    <th>Tên lớp</th>
-                                                    <th>Hành động</th>
+                                                    <th>Mã SV</th>
+                                                    <th>Tên SV</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <c:forEach var="cl" items="${classroomList}" varStatus="loop">
+                                                <c:forEach var="sl" items="${studentList}" varStatus="loop">
                                                     <tr>
                                                         <td>${loop.index + 1}</td>
-                                                        <td>${cl.classroomID}</td>
-                                                        <td>${cl.name}</td>
-                                                        <td>
-                                                            <div style="display: flex; gap: 5px;">
-                                                                <form method="get" action="teacher">
-                                                                    <input type="hidden" name="action"
-                                                                        value="searchStudentListByClassroomID" />
-                                                                    <input type="hidden" name="classroomID"
-                                                                        value="${cl.classroomID}" />
-                                                                    <button class="btn btn-sm btn-info" type="submit">
-                                                                        <i class="fas fa-eye"></i>
-                                                                    </button>
-                                                                </form>
-                                                            </div>
-                                                        </td>
+                                                        <td>${sl.studentID}</td>
+                                                        <td>${sl.name}</td>
                                                     </tr>
                                                 </c:forEach>
                                             </tbody>
