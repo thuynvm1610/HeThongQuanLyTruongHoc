@@ -67,7 +67,7 @@ public class AccountDAO {
 	}
 
 	public boolean insert(Account account) {
-		String sql = "insert into account values (?, ?, ?, ?, ?)";
+		String sql = "insert into account values (?, ?, ?, ?, ?, ?)";
 		DBConnect dbConn = new DBConnect();
 		try {
 			Connection conn = dbConn.getConnection();
@@ -77,6 +77,7 @@ public class AccountDAO {
 			pstmt.setString(3, account.getPassword());
 			pstmt.setString(4, account.getRole());
 			pstmt.setString(5, account.getStudentID());
+			pstmt.setString(6, account.getTeacherID());
 			pstmt.executeUpdate();
 			conn.close();
 			pstmt.close();
@@ -312,6 +313,31 @@ public class AccountDAO {
 			e.printStackTrace();
 		}
 		return accountID;
+	}
+
+	public boolean isTeacherIDUsed(String teacherID, String oldTeacherID, String role) {
+		if (role.equals("admin")) {
+			return false;
+		} else if (role.equals("teacher") & teacherID.equals(oldTeacherID)) {
+			return false;
+		} else if (role.equals("teacher") & !teacherID.equals(oldTeacherID)) {
+			String sql = "select teacherID from account where teacherID = ?";
+			DBConnect dbConn = new DBConnect();
+			try {
+				Connection conn = dbConn.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, teacherID);
+				ResultSet rs = pstmt.executeQuery();
+				boolean result = rs.next();
+				conn.close();
+				pstmt.close();
+				rs.close();
+				return result;
+			} catch (Exception e) {
+				return true;
+			}
+		}
+		return true;
 	}
 	
 }

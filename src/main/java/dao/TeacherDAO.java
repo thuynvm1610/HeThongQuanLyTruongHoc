@@ -309,4 +309,27 @@ public class TeacherDAO {
 	    return result;
 	}
 
+	public boolean isTeacherExists(String teacherID, String role) {
+		if (role.equals("admin"))
+			return true;
+		else {
+			String sql = "select teacherID from teacher where teacherID = ?";
+			DBConnect dbConn = new DBConnect();
+			try {
+				Connection conn = dbConn.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, teacherID);
+				ResultSet rs = pstmt.executeQuery();
+				boolean result = rs.next();
+				conn.close();
+				pstmt.close();
+				rs.close();
+				return result;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+	}
+
 }

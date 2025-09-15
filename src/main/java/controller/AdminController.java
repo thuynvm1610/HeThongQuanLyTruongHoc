@@ -1069,16 +1069,24 @@ public class AdminController extends HttpServlet {
 		} else if (action.equals("addAccount")) {
 			AccountDAO accountDAO = new AccountDAO();
 			StudentDAO studentDAO = new StudentDAO();
+			TeacherDAO teacherDAO = new TeacherDAO();
 			StringBuilder message = new StringBuilder();
 
 			if (accountDAO.findByID(req.getParameter("accountID")) != null) {
 				message.append("Mã tài khoản đã tồn tại<br>");
 			} else if (accountDAO.isUsernameExists(req.getParameter("username"), req.getParameter("accountID"))) {
 				message.append("Tên tài khoản đã được sử dụng<br>");
-			} else if (accountDAO.isStudentIDUsed(req.getParameter("studentID"), null, req.getParameter("role"))) {
-				message.append("Mã sinh viên đã được sử dụng<br>");
-			} else if (!studentDAO.isStudentExists(req.getParameter("studentID"), req.getParameter("role"))) {
-				message.append("Mã sinh viên không tồn tại<br>");
+			} else if (req.getParameter("role").equals("student") || req.getParameter("role").equals("admin")) {
+				if (accountDAO.isStudentIDUsed(req.getParameter("studentID"), null, req.getParameter("role"))) {
+					message.append("Mã sinh viên đã được sử dụng<br>");
+				} else if (!studentDAO.isStudentExists(req.getParameter("studentID"), req.getParameter("role"))) {
+					message.append("Mã sinh viên không tồn tại<br>");
+				}
+			}
+			else if (accountDAO.isTeacherIDUsed(req.getParameter("teacherID"), null, req.getParameter("role"))) {
+				message.append("Mã giáo viên đã được sử dụng<br>");
+			} else if (!teacherDAO.isTeacherExists(req.getParameter("teacherID"), req.getParameter("role"))) {
+				message.append("Mã giáo viên không tồn tại<br>");
 			}
 
 			Account account = new Account();
@@ -1087,6 +1095,7 @@ public class AdminController extends HttpServlet {
 			account.setPassword(req.getParameter("password"));
 			account.setRole(req.getParameter("role"));
 			account.setStudentID(req.getParameter("role").equals("student") ? req.getParameter("studentID") : null);
+			account.setTeacherID(req.getParameter("role").equals("teacher") ? req.getParameter("teacherID") : null);
 
 			if (message.length() > 0) {
 				req.getSession().setAttribute("account", account);

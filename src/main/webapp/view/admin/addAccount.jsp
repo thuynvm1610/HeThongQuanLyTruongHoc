@@ -301,14 +301,20 @@
                             <label for="role" class="form-label">Quyền đăng nhập</label>
                             <select class="form-select" id="role" name="role" required>
                                 <option value="">Chọn quyền</option>
-                                <option value="student" ${account.role=='student' ? 'selected' : '' }>Student</option>
                                 <option value="admin" ${account.role=='admin' ? 'selected' : '' }>Admin</option>
+                                <option value="teacher" ${account.role=='teacher' ? 'selected' : '' }>Teacher</option>
+                                <option value="student" ${account.role=='student' ? 'selected' : '' }>Student</option>
                             </select>
                         </div>
                         <div class="mb-3" id="studentIDField">
                             <label for="studentID" class="form-label">Mã SV</label>
                             <input id="studentID" class="form-control" type="text" name="studentID"
                                 value="${account.studentID}" required>
+                        </div>
+                        <div class="mb-3" id="teacherIDField">
+                            <label for="teacherID" class="form-label">Mã GV</label>
+                            <input id="teacherID" class="form-control" type="text" name="teacherID"
+                                value="${account.teacherID}" required>
                         </div>
                         <div style="display: flex; flex-direction: row-reverse;">
                             <button style="margin-left: 10px;" type="submit" class="btn btn-primary">Lưu</button>
@@ -326,28 +332,34 @@
             myModal.show();
         });
 
-        function toggleStudentIDField() {
-            const roleSelect = document.getElementById("role");
-            const studentIDField = document.getElementById("studentIDField");
-            const studentIDInput = document.getElementById("studentID");
+        function toggleIDFields() {
+            const role = document.getElementById("role").value;
 
-            if (roleSelect.value === "student") {
-                studentIDField.style.display = "block";
-                studentIDInput.required = true;
-            } else {
-                studentIDField.style.display = "none";
-                studentIDInput.required = false;
+            // Tạo một map role -> field
+            const fields = {
+                student: { field: "studentIDField", input: "studentID" },
+                teacher: { field: "teacherIDField", input: "teacherID" }
+            };
+
+            // Duyệt qua tất cả các field
+            for (const key in fields) {
+                const fieldDiv = document.getElementById(fields[key].field);
+                const input = document.getElementById(fields[key].input);
+
+                if (key === role) {
+                    fieldDiv.style.display = "block";
+                    input.required = true;
+                } else {
+                    fieldDiv.style.display = "none";
+                    input.required = false;
+                }
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", () => {
             const roleSelect = document.getElementById("role");
-
-            // Gọi hàm ban đầu để thiết lập trạng thái đúng
-            toggleStudentIDField();
-
-            // Lắng nghe sự kiện khi thay đổi lựa chọn
-            roleSelect.addEventListener("change", toggleStudentIDField);
+            toggleIDFields(); // chạy lần đầu khi load form
+            roleSelect.addEventListener("change", toggleIDFields);
         });
     </script>
     <div style="cursor: pointer;" id="overlay" class="filter-overlay"></div>
